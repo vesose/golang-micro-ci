@@ -1,9 +1,8 @@
 FROM golang:alpine
-ARG GOLANGCI_LINT_VERSION=1.23.8
-RUN adduser -u 1000 -D jenkins && \
-  wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
-  | ash -s v$GOLANGCI_LINT_VERSION && \
+RUN \
   apk add --no-cache make git gcc g++ protobuf && \
+  export GO111MODULE=on && \
   go get -u github.com/golang/protobuf/protoc-gen-go && \
-  go get github.com/micro/protoc-gen-micro && \
+  go get github.com/micro/micro/v2/cmd/protoc-gen-micro@master && \
+  go get github.com/micro/go-micro/v2 && \
   mkdir /.cache && chmod -R 777 /.cache $GOPATH
